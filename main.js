@@ -28,14 +28,14 @@ quotes = [
 ]
 
 client.on("message", msg => {
-    if(msg.content === "!quote") {
+    if(msg.content === "/quote") {
         const quote = quotes[Math.floor(Math.random() * quotes.length)];
         msg.reply(quote);
     }
 })
 
 client.on("message", msg => {
-    if(msg.content === '!random') {
+    if(msg.content === '/random') {
         msg.reply("Wait a minute, please.");
         (async () => {
             const results = await google.scrape('megumin', 200);
@@ -50,14 +50,41 @@ client.on("message", msg => {
     }
 })
 
+client.on("message", msg => {
+    if(msg.content === "/purge 5") {
+        msg.channel.bulkDelete(5)
+            .then(msg => console.log(`Bulk deleted ${msg.size} messages!`))
+            .catch(console.log(error));
+        msg.reply('Ex-PLOSION~ 5 Messages were blown up!');
+    }
+})
+
+client.on("message", msg => {
+    if(msg.content === "/purge 10") {
+        msg.channel.bulkDelete(10)
+            .then(msg => console.log(`Bulk deleted ${msg.size} messages!`))
+            .catch(console.log(error));
+        msg.reply('Ex-PLOSION~ 10 Messages were blown up!');
+    }
+})
+
+client.on("message", msg => {
+    if(msg.content === "/purge 15") {
+        msg.channel.bulkDelete(15)
+            .then(msg => console.log(`Bulk deleted ${msg.size} messages!`))
+            .catch(console.log(error));
+        msg.reply('Ex-PLOSION~ 15 Messages were blown up!');
+    }
+})
+
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`)
 })
 
 client.on("message", msg => {
-    if(msg.content === '!ping') {
+    if(msg.content === '/ping') {
         msg.reply('pong');
     }
 })
 
-client.login('OTY1MzEyMzI3NDg0MzA5NTY0.YlxXKQ.Ux89G2b0o5IZxHAetutvAqtzAkc');
+client.login('OTY1MzEyMzI3NDg0MzA5NTY0.YlxXKQ.7sJCFy2MxMZpg_qZLFeYti_dlVc');
