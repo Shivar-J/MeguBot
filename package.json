@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "canvas": "^2.9.1",
+    "discord.js": "^13.6.0",
+    "images-scraper": "^6.4.0",
+    "node.js": "^0.0.1-security",
+    "weeb.js": "^1.6.2"
+  }
+}
