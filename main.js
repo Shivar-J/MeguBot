@@ -3,6 +3,8 @@ const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 
 var Scraper = require('images-scraper');
+const config = require('./config.json');
+var fs = require('fs');
 
 const google = new Scraper({
     puppeteer: {
@@ -28,30 +30,34 @@ quotes = [
 ]
 
 client.on("message", msg => {
-    if(msg.content === "/quote") {
+    if(msg.content === "!quote") {
         const quote = quotes[Math.floor(Math.random() * quotes.length)];
         msg.reply(quote);
     }
 })
 
 client.on("message", msg => {
-    if(msg.content === '/random') {
+    if(msg.content === '!random') {
         msg.reply("Wait a minute, please.");
-        (async () => {
-            const results = await google.scrape('megumin', 200);
-            console.log('results', results);
-            let num = Math.floor(Math.random() * results.length);
-            console.log(num);
-            let reply = await results[num]['url'];
-            console.log(reply);
-            msg.reply(reply)
-                .then(() => console.log(`'Replied to message '${msg.content}`))
-        })();
+        let rawdata = fs.readFileSync('./results.json');
+        console.log(rawdata);
+        fs.readFile('./results.json', function readFileCallback(err, data){
+            if(err) {
+                console.log(err);
+            } else {
+                obj = JSON.parse(data);
+                console.log(obj);
+                let num = Math.floor(Math.random() * obj.length);
+                let reply = obj[num]['url'];
+                msg.reply(reply)
+                    .then(() => console.log('Replied to /random request'))
+            }
+        })
     }
 })
 
 client.on("message", msg => {
-    if(msg.content === "/purge 5") {
+    if(msg.content === "!purge 5") {
         msg.channel.bulkDelete(5)
             .then(msg => console.log(`Bulk deleted ${msg.size} messages!`))
             .catch(console.log(error));
@@ -60,7 +66,7 @@ client.on("message", msg => {
 })
 
 client.on("message", msg => {
-    if(msg.content === "/purge 10") {
+    if(msg.content === "!purge 10") {
         msg.channel.bulkDelete(10)
             .then(msg => console.log(`Bulk deleted ${msg.size} messages!`))
             .catch(console.log(error));
@@ -69,7 +75,7 @@ client.on("message", msg => {
 })
 
 client.on("message", msg => {
-    if(msg.content === "/purge 15") {
+    if(msg.content === "!purge 15") {
         msg.channel.bulkDelete(15)
             .then(msg => console.log(`Bulk deleted ${msg.size} messages!`))
             .catch(console.log(error));
@@ -82,9 +88,9 @@ client.on("ready", () => {
 })
 
 client.on("message", msg => {
-    if(msg.content === '/ping') {
+    if(msg.content === '!ping') {
         msg.reply('pong');
     }
 })
 
-client.login('OTY1MzEyMzI3NDg0MzA5NTY0.YlxXKQ.7sJCFy2MxMZpg_qZLFeYti_dlVc');
+client.login(config.TOKEN);
